@@ -1,0 +1,64 @@
+﻿<Window x:Class="AudioToolsDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AudioToolsDemo"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        mc:Ignorable="d"
+        Title="AudioTools Demo" Height="200" Width="800" MinWidth="700"
+        FontSize="16"
+            >
+    <Grid Margin="10" >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock 
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+            Text="{Binding AudioFilePath}"
+            d:Text="- select an audiofile - "
+            VerticalAlignment="Center"
+            Margin="10,5"            
+        />
+        <Button
+            Grid.Row="0" Grid.Column="3"
+            Content="Select"
+            Height="35"
+            Width="100"
+            Command="{Binding OpenFileCommand}"
+         />
+        <Button
+            Grid.Row="1" Grid.Column="3"
+            Content="Play"
+            Height="35"
+            Width="100"
+            Command="{Binding PlayCommand}"
+         />
+        <Button
+            Grid.Row="2" Grid.Column="3"
+            Content="Pause"
+            Height="35"
+            Width="100"
+            Command="{Binding PauseCommand}"
+         />
+        <Label Grid.Row="1" Grid.Column="0" Content="Total time:" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding AudioLength}" d:Text="00:00:00" VerticalAlignment="Center"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Position:" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AudioPosition}" d:Text="00:00:00" VerticalAlignment="Center"/>
+        <Slider 
+          Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"
+          Minimum="0" Maximum="100"  Value="{Binding Volume}"    
+          TickPlacement="BottomRight" TickFrequency="5"   AutoToolTipPlacement="TopLeft"
+         />
+        <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Height="30"/>
+
+    </Grid>
+</Window>

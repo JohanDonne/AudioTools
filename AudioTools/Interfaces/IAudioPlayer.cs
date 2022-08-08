@@ -10,6 +10,8 @@ public interface IAudioPlayer:IDisposable
 {
     event Action<int> OnSampleFramesNeeded;
 
+    float Volume { get; set; }
+
     void Stop();
     void Start();
 

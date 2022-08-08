@@ -11,6 +11,18 @@ public class AudioPlayer : IAudioPlayer
 
     public event Action<int>? OnSampleFramesNeeded;
 
+    public float Volume
+    {
+        get => waveOut?.Volume ?? 0;
+        set
+        {
+            if (waveOut != null)
+            {
+                waveOut.Volume = (value < 0) ? 0 : (value <= 1.0) ? value : 1F;
+            }
+        }
+    }
+
     public AudioPlayer(int sampleRate) : this(string.Empty, sampleRate) { }
 
     public AudioPlayer(string device, int sampleRate)
