@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AudioTools.Interfaces;
 
 namespace AudioTools;
 
-public class DelayLine<T>
+public class DelayLine<T> : IDelayLine<T>
 {
     private T[]? buffer;
     private int head;
@@ -16,10 +12,7 @@ public class DelayLine<T>
     public int Delay
     {
         get => delay;
-        set
-        {
-            delay = (value < 0) ? 0 : (value < capacity) ? value : capacity - 1;
-        }
+        set => delay = (value < 0) ? 0 : (value < capacity) ? value : capacity - 1;
     }
 
     public DelayLine(int capacity)
@@ -37,7 +30,11 @@ public class DelayLine<T>
     public void Enqueue(T value)
     {
         head++;
-        if(head >= capacity) head = 0;
+        if (head >= capacity)
+        {
+            head = 0;
+        }
+
         buffer![head] = value;
     }
 

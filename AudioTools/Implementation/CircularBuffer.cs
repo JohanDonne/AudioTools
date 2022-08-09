@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using AudioTools.Interfaces;
+using System.Collections;
 
 namespace AudioTools;
 
-public class CircularBuffer<T> : IEnumerable<T>
+public class CircularBuffer<T> : ICircularBuffer<T>
 {
     private T[]? buffer;
     private int head;
