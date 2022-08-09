@@ -14,7 +14,7 @@ internal class AudioController : IDisposable
     private bool _playing = false;
     private bool disposedValue;
 
-    public List<string> Devices = (new List<string> { "Default" }).Concat(AudioSystem.WaveOutDeviceCapabilities.Select(c => c.ProductName)).ToList();    
+    public List<string> Devices = (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
 
     public TimeSpan AudioLength => _reader?.TimeLength ?? new TimeSpan();
     public TimeSpan AudioPosition => _reader?.TimePosition ?? new TimeSpan();

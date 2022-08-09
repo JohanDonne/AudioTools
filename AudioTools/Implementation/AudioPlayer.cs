@@ -25,25 +25,25 @@ public class AudioPlayer : IAudioPlayer
 
     public AudioPlayer(int sampleRate) : this(string.Empty, sampleRate) { }
 
-    public AudioPlayer(string device, int sampleRate)
+    public AudioPlayer(string deviceProductName, int sampleRate)
     {
         format = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 2);
         sampleProvider = new AudioSampleProvider(format);
         sampleProvider.OnSampleFramesNeeded += SampleProvider_OnSampleFramesNeeded;
 
         waveOut = new WaveOutEvent();
-        if (!string.IsNullOrEmpty(device))
+        if (!string.IsNullOrEmpty(deviceProductName))
         {
-            waveOut.DeviceNumber = GetDeviceId(device);
+            waveOut.DeviceNumber = GetDeviceId(deviceProductName);
         }
         waveOut.Init(sampleProvider);
     }
 
     private static int GetDeviceId(string device)
     {
-        for (int i = 0; i < AudioSystem.WaveOutDeviceCapabilities.Count; i++)
+        for (int i = 0; i < AudioSystem.OutputDeviceCapabilities.Count; i++)
         {
-            if (AudioSystem.WaveOutDeviceCapabilities[i].ProductName == device)
+            if (AudioSystem.OutputDeviceCapabilities[i].ProductName == device)
             {
                 return i;
             }
