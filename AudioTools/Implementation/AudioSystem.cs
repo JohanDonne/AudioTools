@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
 public static class AudioSystem
 {

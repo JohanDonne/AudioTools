@@ -1,6 +1,7 @@
-﻿using NAudio.Wave;
+﻿using AudioTools.Interfaces;
+using NAudio.Wave;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
 public class AudioPlayer : IAudioPlayer
 {

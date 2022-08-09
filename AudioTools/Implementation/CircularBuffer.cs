@@ -1,7 +1,7 @@
 ﻿using AudioTools.Interfaces;
 using System.Collections;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
 public class CircularBuffer<T> : ICircularBuffer<T>
 {

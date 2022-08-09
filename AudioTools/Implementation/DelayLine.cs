@@ -1,6 +1,6 @@
 ﻿using AudioTools.Interfaces;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
 public class DelayLine<T> : IDelayLine<T>
 {

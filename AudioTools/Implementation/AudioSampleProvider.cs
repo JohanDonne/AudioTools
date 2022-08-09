@@ -1,11 +1,12 @@
-﻿using NAudio.Wave;
+﻿using AudioTools.Interfaces;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
 internal class AudioSampleProvider:ISampleProvider
 {

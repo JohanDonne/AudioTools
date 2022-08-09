@@ -1,4 +1,6 @@
 ﻿using AudioTools;
+using AudioTools.Implementation;
+using AudioTools.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,12 @@ using System.Threading.Tasks;
 namespace AudioToolsDemo;
 internal class AudioController : IDisposable
 {
-    private IAudioReader? _reader;
+    private IAudioFileReader? _reader;
     private IAudioPlayer? _player;
+    private Mp3FileWriter? _recorder;
     private string _currentDevice;
     private bool _playing = false;
+    public bool IsRecording { get; private set; } = false;
     private bool disposedValue;
 
     public List<string> Devices = (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
@@ -39,7 +43,7 @@ internal class AudioController : IDisposable
     public void SetSource(string path)
     {
         _playing = false;
-        _reader = new AudioReader(path);
+        _reader = new AudioFileReader(path);
         _player = new AudioPlayer(_currentDevice,_reader.SampleRate);
         _player.OnSampleFramesNeeded += Player_OnSampleFramesNeeded;
     }
@@ -62,7 +66,9 @@ internal class AudioController : IDisposable
     {
         for (int i = 0; i < frameCount; i++)
         {
-            _player?.WriteSampleFrame(_reader!.ReadSampleFrame());
+            var sampleFrame = _reader!.ReadSampleFrame();
+            if (IsRecording) _recorder!.WriteSampleFrame(sampleFrame);
+            _player?.WriteSampleFrame(sampleFrame);
         }
     }
 
@@ -72,9 +78,26 @@ internal class AudioController : IDisposable
         _playing = true;
     }
 
+    public void StartRecording()
+    {
+        const string filePath = "fragment.mp3";
+        if (!_playing) return;
+        _recorder = new Mp3FileWriter(filePath);
+        IsRecording = true;
+    }
+
+    public void StopRecording()
+    {
+        if (!IsRecording) return;
+        _recorder!.Close();
+        IsRecording = false;
+    }
+
     public void Stop()
     {
         _player?.Stop();
+        if (IsRecording) _recorder!.Close();
+        IsRecording = false;
         _playing = false;   
     }
 
@@ -88,7 +111,6 @@ internal class AudioController : IDisposable
                 _reader?.Dispose();
                 _player?.Dispose();
             }
-
             _reader = null;
             _player = null;
             disposedValue = true;

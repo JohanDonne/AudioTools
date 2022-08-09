@@ -1,10 +1,11 @@
-﻿using NAudio.Wave;
+﻿using AudioTools.Interfaces;
+using NAudio.Wave;
 
-namespace AudioTools;
+namespace AudioTools.Implementation;
 
-public class AudioReader : IAudioReader
+public class AudioFileReader : IAudioFileReader
 {
-    private AudioFileReader? fileReader;
+    private NAudio.Wave.AudioFileReader? fileReader;
     private WaveChannel32? waveChannel;
     private ISampleProvider? sampleProvider;
     private bool disposedValue;
@@ -24,7 +25,7 @@ public class AudioReader : IAudioReader
         }
     }
 
-    public AudioReader(string filePath)
+    public AudioFileReader(string filePath)
     {
         if (!File.Exists(filePath))
         {
@@ -33,7 +34,7 @@ public class AudioReader : IAudioReader
 
         try
         {
-            fileReader = new AudioFileReader(filePath);
+            fileReader = new NAudio.Wave.AudioFileReader(filePath);
         }
         catch
         {

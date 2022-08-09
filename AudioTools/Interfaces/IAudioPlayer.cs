@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AudioTools.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioTools;
+namespace AudioTools.Interfaces;
 
 public interface IAudioPlayer:IDisposable
 {

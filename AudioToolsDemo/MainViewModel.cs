@@ -44,12 +44,14 @@ internal class MainViewModel : ObservableObject, IDisposable
     public IRelayCommand OpenFileCommand { get; }
     public IRelayCommand PlayCommand { get; }
     public IRelayCommand PauseCommand { get; }
+    public IRelayCommand RecordCommand { get; }
 
     public MainViewModel()
     {
         OpenFileCommand = new RelayCommand(OpenFile);
         PlayCommand = new RelayCommand(PlaySource, () => _sourceSelected && !_playing);
         PauseCommand = new RelayCommand(StopSource, () => _playing);
+        RecordCommand = new RelayCommand(ToggleRecording, () => _playing);
         SelectedDevice = Devices[0];
     }
 
@@ -96,6 +98,7 @@ internal class MainViewModel : ObservableObject, IDisposable
     {
         PlayCommand.NotifyCanExecuteChanged();
         PauseCommand.NotifyCanExecuteChanged();
+        RecordCommand.NotifyCanExecuteChanged();
     }
 
     private async void PlaySource()
@@ -117,6 +120,18 @@ internal class MainViewModel : ObservableObject, IDisposable
         _controller?.Stop();
         _playing = false;
         UpdateUiCommandsState();
+    }
+
+    private void ToggleRecording()
+    {
+        if (_controller!.IsRecording)
+        {
+            _controller.StopRecording();
+        }
+        else
+        {
+            _controller.StartRecording();
+        }
     }
 
     protected virtual void Dispose(bool disposing)

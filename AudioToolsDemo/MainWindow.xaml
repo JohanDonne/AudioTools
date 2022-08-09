@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:AudioToolsDemo"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="AudioTools Demo" Height="200" Width="800" MinWidth="700"
+        Title="AudioTools Demo" Height="260" Width="800" MinWidth="700"
         FontSize="16"
             >
     <Grid Margin="10" >
         <Grid.RowDefinitions>
+            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -49,16 +50,25 @@
             Width="100"
             Command="{Binding PauseCommand}"
          />
-        <Label Grid.Row="1" Grid.Column="0" Content="Total time:" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding AudioLength}" d:Text="00:00:00" VerticalAlignment="Center"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Position:" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AudioPosition}" d:Text="00:00:00" VerticalAlignment="Center"/>
+        <Button
+            Grid.Row="3" Grid.Column="3"
+            Content="Record"
+            Height="35"
+            Width="100"
+            Command="{Binding RecordCommand}"
+         />
+        <Label Grid.Row="1" Grid.Column="0" Content="Output:" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Height="30"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Total time:" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AudioLength}" d:Text="00:00:00" VerticalAlignment="Center"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Position:" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AudioPosition}" d:Text="00:00:00" VerticalAlignment="Center"/>
         <Slider 
           Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"
           Minimum="0" Maximum="100"  Value="{Binding Volume}"    
           TickPlacement="BottomRight" TickFrequency="5"   AutoToolTipPlacement="TopLeft"
          />
-        <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Height="30"/>
-
+        
     </Grid>
 </Window>

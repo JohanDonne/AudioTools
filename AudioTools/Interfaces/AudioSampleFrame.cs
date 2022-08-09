@@ -1,4 +1,4 @@
-﻿namespace AudioTools;
+﻿namespace AudioTools.Interfaces;
 
 public struct AudioSampleFrame : IEquatable<AudioSampleFrame>
 {
@@ -7,13 +7,13 @@ public struct AudioSampleFrame : IEquatable<AudioSampleFrame>
 
     public AudioSampleFrame(float left, float right)
     {
-        Left = (left < -1F) ? -1F : (left > 1F) ? 1F : left;
-        Right = (right < -1F) ? -1F : (right > 1F) ? 1F : right;
+        Left = left < -1F ? -1F : left > 1F ? 1F : left;
+        Right = right < -1F ? -1F : right > 1F ? 1F : right;
     }
 
     public static bool operator ==(AudioSampleFrame a, AudioSampleFrame b)
     {
-        return (a.Left == b.Left) && (a.Right == b.Right);
+        return a.Left == b.Left && a.Right == b.Right;
     }
 
     public static bool operator !=(AudioSampleFrame a, AudioSampleFrame b)
