@@ -90,6 +90,7 @@ internal class AudioController : IDisposable
     {
         if (!IsRecording) return;
         _recorder!.Close();
+        _recorder = null;
         IsRecording = false;
     }
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AudioTools.Implementation;
 public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider
 {
-    private readonly Queue<AudioSampleFrame> _samples = new();
+    private Queue<AudioSampleFrame>?_samples = new();
     private readonly SampleToWaveProvider _converter;
     
     public int Samplerate => 44100;
@@ -31,11 +31,13 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider
     {
         using var output = new FileStream(FilePath, FileMode.Create);
         MediaFoundationEncoder.EncodeToMp3(this, output);
+        _samples = null;
     }
 
     
     public void WriteSampleFrame(AudioSampleFrame frame)
     {
+        if (_samples == null) _samples = new();
         _samples.Enqueue(frame);
     }
 
@@ -50,7 +52,7 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider
     public int Read(float[] buffer, int offset, int count)
     {
         int samplesRead = 0;
-        while ((samplesRead < count-2) && (_samples.Count>0))
+        while ((samplesRead < count-2) && (_samples!.Count>0))
         {
             var sample = _samples.Dequeue();
             buffer[samplesRead++] = sample.Left;

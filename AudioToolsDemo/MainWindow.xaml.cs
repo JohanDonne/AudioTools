@@ -23,5 +23,6 @@ public partial class MainWindow : Window
     {
         this.DataContext = new MainViewModel();
         InitializeComponent();
-    }
+        Closing += (s, a) => (DataContext as MainViewModel)!.Dispose();
+    }    
 }

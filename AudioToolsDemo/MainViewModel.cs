@@ -40,6 +40,7 @@ internal class MainViewModel : ObservableObject, IDisposable
             if (_controller != null) _controller.Volume = value;
         }
     }
+    public string RecordButtonCaption => _controller!.IsRecording ? "Stop Recording" : "Start Recording";
 
     public IRelayCommand OpenFileCommand { get; }
     public IRelayCommand PlayCommand { get; }
@@ -132,6 +133,7 @@ internal class MainViewModel : ObservableObject, IDisposable
         {
             _controller.StartRecording();
         }
+        OnPropertyChanged(nameof(RecordButtonCaption));
     }
 
     protected virtual void Dispose(bool disposing)
