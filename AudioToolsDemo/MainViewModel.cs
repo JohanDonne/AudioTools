@@ -100,6 +100,7 @@ internal class MainViewModel : ObservableObject, IDisposable
         PlayCommand.NotifyCanExecuteChanged();
         PauseCommand.NotifyCanExecuteChanged();
         RecordCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(RecordButtonCaption));
     }
 
     private async void PlaySource()
