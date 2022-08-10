@@ -4,6 +4,11 @@
     <TargetFramework>net6.0-Windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Johan Donné</Authors>
+    <Description>A basic wrapper for the NAudio-library to facilitate experimenting with digital audio.</Description>
+    <RepositoryUrl>https://github.com/JohanDonne/AudioTools</RepositoryUrl>
+    <Version>0.3.0-beta</Version>
   </PropertyGroup>
 
   <ItemGroup>
