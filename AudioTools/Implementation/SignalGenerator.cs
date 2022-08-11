@@ -10,6 +10,8 @@ namespace AudioTools.Implementation;
 public class SignalGenerator : ISignalGenerator
 {
 
+    private AudioSignalType _signalType = AudioSignalType.Sine;
+
     private readonly NAudio.Wave.SampleProviders.SignalGenerator _generator = new(44100, 2)
     {
         Frequency=100.0,
@@ -18,11 +20,34 @@ public class SignalGenerator : ISignalGenerator
     };
     
     public int SampleRate => 44100;
-    public SignalGeneratorType SignalType { get => _generator.Type; set => _generator.Type = value; }
+    public AudioSignalType SignalType
+    {
+        get => _signalType;
+        set
+        {
+            _signalType = value;
+            SetInternalType();
+        }
+    }
     public double Frequency { get => _generator.Frequency; set => _generator.Frequency = value; }
     public double FrequencyEnd { get => _generator.FrequencyEnd; set => _generator.FrequencyEnd = value; }
     public double SweepLengthSecondss { get => _generator.SweepLengthSecs; set => _generator.SweepLengthSecs = value; }
-    
+
+    private void SetInternalType()
+    {
+        _generator.Type = _signalType switch
+        {
+            AudioSignalType.Pink => SignalGeneratorType.Pink,
+            AudioSignalType.White => SignalGeneratorType.White,
+            AudioSignalType.Sweep => SignalGeneratorType.Sweep,
+            AudioSignalType.Sine => SignalGeneratorType.Sin,
+            AudioSignalType.Square => SignalGeneratorType.Square,
+            AudioSignalType.Triangle => SignalGeneratorType.Triangle,
+            AudioSignalType.SawTooth => SignalGeneratorType.SawTooth,
+            _ => SignalGeneratorType.Sin
+        };
+    }
+
     public AudioSampleFrame ReadSampleFrame()
     {
         float[] buffer = new float[2];

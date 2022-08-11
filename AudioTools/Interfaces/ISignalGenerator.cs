@@ -1,10 +1,8 @@
-﻿using NAudio.Wave.SampleProviders;
-
-namespace AudioTools.Interfaces;
+﻿namespace AudioTools.Interfaces;
 public interface ISignalGenerator
 {
     int SampleRate { get; }
-    SignalGeneratorType SignalType { get; set; }
+    AudioSignalType SignalType { get; set; }
     double Frequency { get; set; }
     double FrequencyEnd { get; set; }
     double SweepLengthSecondss { get; set; }
