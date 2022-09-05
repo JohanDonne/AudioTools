@@ -55,7 +55,7 @@ Should be called when the instance will no longer be used. Once `Dispose`is call
 None
 
 
-##### remarks
+##### Remarks
 
 * `AudioFileReader` implements `IDisposable`. Therefore `Dispose` should be called when the reader is no longer used.
 * When reading a mono audio source (with a single audio-channel), both `Left` and `Right` will contain the same value read from the original sample.

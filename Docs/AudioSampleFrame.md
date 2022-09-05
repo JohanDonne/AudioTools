@@ -53,6 +53,6 @@ Returns a string representing the values for `Left` & `Right`.
 
 None
 
-##### remarks
+##### Remarks
 
 * An `AudioSampleFrame` is immutable: the values it contains cannot be changed after construction.  

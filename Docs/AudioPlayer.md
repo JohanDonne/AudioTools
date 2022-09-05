@@ -13,7 +13,7 @@ Namespace:  AudioTools.Implementation
 
 &nbsp;&nbsp;&nbsp;&nbsp;The audio will be played using the default playback device that is set in Windows.    
      
-`AudioPlayer((string deviceProductName, int sampleRate)`
+`AudioPlayer(string deviceProductName, int sampleRate)`
 
 &nbsp;&nbsp;&nbsp;&nbsp;*deviceProductName*: the name of the device through which the audio shoule be played.    
 &nbsp;&nbsp;&nbsp;&nbsp;*samplerate*: the rate at which the samples shoud be played (typically 44100 or 48000 samples per second).     
@@ -56,7 +56,7 @@ Signals that the Player needs samples to play. A suggested count for the number 
 The handlers for this event will be called on a backgroud thread managed by the player. Any UI manipulation (or other operations with thread affinity) done from within the handler may have to take this into account. 
 
 
-##### remarks
+##### Remarks
 
 * `AudioPlayer` implements `IDisposable`. Therefore `Dispose` should be called when the reader is no longer used.
 * Internally, the player uses a buffering mechanism for playback. The number of frames provided in response to the 'OnSampleFramesNeeded ' event is not critical. If you provide (much) less than requested, a new event will soon be triggered, involving extra CPU load.    

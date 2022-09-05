@@ -7,58 +7,41 @@ Namespace:  AudioTools.Implementation
 
 ##### Constructors
 
-`AudioPlayer(int sampleRate)`
+`AudioPlayer(string filePath, int samplerate)`
 
-&nbsp;&nbsp;&nbsp;&nbsp;*samplerate*: the rate at which the samples shoud be played (typically 44100 or 48000 samples per second).
-
-&nbsp;&nbsp;&nbsp;&nbsp;The audio will be played using the default playback device that is set in Windows.    
+&nbsp;&nbsp;&nbsp;&nbsp;*filePath*: A string containing the path to the file to te be created (existing files will be overwritten).   
+&nbsp;&nbsp;&nbsp;&nbsp;*samplerate*: The rate at which the samples have been acquired (to be read from the audio source).     
      
-`AudioPlayer((string deviceProductName, int sampleRate)`
-
-&nbsp;&nbsp;&nbsp;&nbsp;*deviceProductName*: the name of the device through which the audio shoule be played.    
-&nbsp;&nbsp;&nbsp;&nbsp;*samplerate*: the rate at which the samples shoud be played (typically 44100 or 48000 samples per second).     
-     
-&nbsp;&nbsp;&nbsp;&nbsp;A list of available playback devices with their properties (including `ProductName`) can be read from `AudioSystem.OutputDeviceCapabilities` 
-
 
 ##### Properties
 
-`Volume`    
-A multiplicationfactor that will be applied to the samples before playing (float in the range of 0..1.0, default = 1.0).    
+None   
     
 
 ##### Methods
 
-`void Start()`    
+`void WriteSampleFrame(AudioSampleFrame frame)`
 
-Starts playing.
+Writes the next sample for the left and right audio-channels to the internal recording buffer.
 
-`void Stop()`
+`void Close()`
 
-Pauzes playing.
+Encodes the buffered audio samples to an mp3 file and closes the `Mp3FileWriter` instance. A closed instance can no longer be used.
 
-`void WriteSampleFrame(AudioSampleFrame frame)`    
-Writes the next sample for the left and right audio-channels to be played. This method should be called repeatedly at a sufficient rate to provide the player with the necessary audio-samples (rate should be at least equal to the samplerate passed to the constructor).     
- 
+
 
 `void Dispose()`    
 
-Releases all resources used by the `AudioPlayer` instance (including unmanaged resources).    
-Should be called when the instance will no longer be used. Once `Dispose`is called, the player should no longer be used.
-
+Releases all resources used by the `Mp3FileWriter` instance (including unmanaged resources).    
+Should be called when the instance will no longer be used. Once `Dispose`is called, the writer should no longer be used.    
+Note: Disposing a writer that was not previously closed will clear all buffered audio samples and will abort the creation of the mp3 file.
 
 
 ##### Events 
 
-`Action<int> SampleFramesNeeded`
+None
 
-Signals that the Player needs samples to play. A suggested count for the number of samples to be provided (by calling `WriteSampleFrame`) is passed as a parameter.    
-The handlers for this event will be called on a backgroud thread managed by the player. Any UI manipulation (or other operations with thread affinity) done from within the handler may have to take this into account. 
+##### Remarks
 
-
-##### remarks
-
-* `AudioPlayer` implements `IDisposable`. Therefore `Dispose` should be called when the reader is no longer used.
-* Internally, the player uses a buffering mechanism for playback. The number of frames provided in response to the 'OnSampleFramesNeeded ' event is not critical. If you provide (much) less than requested, a new event will soon be triggered, involving extra CPU load.    
-* In the extreme case where samples are not provided at a sufficient rate and the player runs out of samples to play, playback will be interrupted by silence until new samples are received.    
-* If, on the other hand, you provide much more than the requested number of sample frames, additional memory will be required to buffer them all. In practice, the number requested by the `SampleFramesNeeded ` event is usually optimal for good sound quality.
+* The `Mp3FileWriter` records the provided audio samples to a stereo mp3 file with a sample rate of 44100 Hz an a fixed bitrate of 320k.
+* The actual mp3 encoding/compression can only take place after all samples are available. Therefore all provided samples are buffered in a MemoryStream. The amount of memory that will be used depends on the duration of the audio fragment and its sample rate. Example: a 1-minute audiofragment generated with a sample rate of 44100 Hz wil require 60 x 44100 x 2 floats = 21.168.000 bytes of memory. Therefore, even if the recording is aborted, it is important to Dispose of the `Mp3FileWriter` instance in order to release the buffer memory!

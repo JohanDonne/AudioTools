@@ -42,13 +42,9 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
         using (_reader = new(_memory!))
         {
             using FileStream? output = new(_filePath, FileMode.Create);
-            MediaFoundationEncoder.EncodeToMp3(this, output);
+            MediaFoundationEncoder.EncodeToMp3(this, output, desiredBitRate: 320000);
         }
-        _reader = null;
-        _writer?.Dispose();
-        _writer = null;
-        _memory?.Dispose();
-        _memory = null;
+        Dispose(disposing: true);
     }
 
     public void WriteSampleFrame(AudioSampleFrame frame)
@@ -82,9 +78,12 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
     {
         if (!_disposedValue)
         {
-            _reader?.Dispose();
-            _writer?.Dispose();
-            _memory?.Dispose();
+            if (disposing)
+            {
+                _reader?.Dispose();
+                _writer?.Dispose();
+                _memory?.Dispose();
+            }
             _reader = null;
             _writer = null;
             _memory = null;
