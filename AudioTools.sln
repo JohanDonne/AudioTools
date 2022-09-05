@@ -8,9 +8,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioTools", "AudioTools\AudioTools.csproj", "{FA7341B5-5677-4AD9-ACE6-35807D523792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTools", "AudioTools\AudioTools.csproj", "{FA7341B5-5677-4AD9-ACE6-35807D523792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioToolsDemo", "AudioToolsDemo\AudioToolsDemo.csproj", "{7EDF3031-810C-467E-AED3-B90159877C60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioToolsDemo", "AudioToolsDemo\AudioToolsDemo.csproj", "{7EDF3031-810C-467E-AED3-B90159877C60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F65035D8-C9EF-4207-B766-14B606C1CC6C}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\AudioFileReader.md = Docs\AudioFileReader.md
+		Docs\AudioPlayer.md = Docs\AudioPlayer.md
+		Docs\AudioSampleFrame.md = Docs\AudioSampleFrame.md
+		Docs\CircularBuffer.md = Docs\CircularBuffer.md
+		DelayLine.md = DelayLine.md
+		docs\GettingStarted.md = docs\GettingStarted.md
+		docs\DependencyInjection.md = docs\DependencyInjection.md
+		docs\Mp3FileWriter.md = docs\Mp3FileWriter.md
+		docs\SignalGenerator.md = docs\SignalGenerator.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

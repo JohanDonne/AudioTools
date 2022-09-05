@@ -10,7 +10,7 @@ public class AudioPlayer : IAudioPlayer
     private readonly WaveFormat _format;
     private bool _disposedValue;
 
-    public event Action<int>? OnSampleFramesNeeded;
+    public event Action<int>? SampleFramesNeeded;
 
     public float Volume
     {
@@ -30,7 +30,7 @@ public class AudioPlayer : IAudioPlayer
     {
         _format = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 2);
         _sampleProvider = new AudioSampleProvider(_format);
-        _sampleProvider.OnSampleFramesNeeded += SampleProvider_OnSampleFramesNeeded;
+        _sampleProvider.SampleFramesNeeded += OnSampleFramesNeeded;
 
         _waveOut = new WaveOutEvent();
         if (!string.IsNullOrEmpty(deviceProductName))
@@ -52,9 +52,9 @@ public class AudioPlayer : IAudioPlayer
         return -1;
     }
 
-    private void SampleProvider_OnSampleFramesNeeded(int framesRequested)
+    private void OnSampleFramesNeeded(int framesRequested)
     {
-        OnSampleFramesNeeded?.Invoke(framesRequested);
+        SampleFramesNeeded?.Invoke(framesRequested);
     }
 
     public void Start()
@@ -78,7 +78,7 @@ public class AudioPlayer : IAudioPlayer
         {
             if (disposing)
             {
-                _sampleProvider.OnSampleFramesNeeded -= SampleProvider_OnSampleFramesNeeded;
+                _sampleProvider.SampleFramesNeeded -= OnSampleFramesNeeded;
                 _waveOut?.Dispose();                
             }
             _waveOut = null; ;

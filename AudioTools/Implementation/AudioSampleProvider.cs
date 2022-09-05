@@ -19,7 +19,7 @@ internal class AudioSampleProvider:ISampleProvider
 
     public WaveFormat WaveFormat { get; }
 
-    public event Action<int>? OnSampleFramesNeeded;
+    public event Action<int>? SampleFramesNeeded;
 
     public AudioSampleProvider(WaveFormat waveFormat)
     {
@@ -48,7 +48,7 @@ internal class AudioSampleProvider:ISampleProvider
             buffer[offset + index] = 0F;
             index++;
         }
-        if(_sampleBuffer.Count < _sampleLowMark) OnSampleFramesNeeded?.Invoke(_sampleHighMark - _sampleBuffer.Count-10);
+        if(_sampleBuffer.Count < _sampleLowMark) SampleFramesNeeded?.Invoke(_sampleHighMark - _sampleBuffer.Count-10);
 
         return index;
     }

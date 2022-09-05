@@ -45,7 +45,7 @@ internal class AudioController : IDisposable
         _playing = false;
         _reader = new AudioFileReader(path);
         _player = new AudioPlayer(_currentDevice,_reader.SampleRate);
-        _player.OnSampleFramesNeeded += Player_OnSampleFramesNeeded;
+        _player.SampleFramesNeeded += Player_OnSampleFramesNeeded;
     }
 
     public void SetDevice(string device)
@@ -54,9 +54,9 @@ internal class AudioController : IDisposable
         if (_reader != null)
         {
             var oldplayer = _player; 
-            oldplayer!.OnSampleFramesNeeded -= Player_OnSampleFramesNeeded;
+            oldplayer!.SampleFramesNeeded -= Player_OnSampleFramesNeeded;
             _player = new AudioPlayer(_currentDevice, _reader.SampleRate);
-            _player.OnSampleFramesNeeded += Player_OnSampleFramesNeeded;
+            _player.SampleFramesNeeded += Player_OnSampleFramesNeeded;
             oldplayer?.Dispose();
         }
         if (_playing) _player?.Start();

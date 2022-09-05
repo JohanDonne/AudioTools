@@ -9,7 +9,7 @@ namespace AudioTools.Interfaces;
 
 public interface IAudioPlayer:IDisposable
 {
-    event Action<int> OnSampleFramesNeeded;
+    event Action<int> SampleFramesNeeded;
 
     float Volume { get; set; }
 
