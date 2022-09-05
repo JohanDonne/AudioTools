@@ -12,6 +12,6 @@ Warnings:
 [Playing a stream of audio samples: AudioPlayer](Docs/AudioPlayer.md)    
 *[Writing a stream of audio samples to an mp3 file: Mp3FileWriter](Docs/Mp3FileWriter.md)*    
 *[Generating audio signals: SignalGenerator](Docs/SignalGenerator.md)*    
-Useful collections: *[CircularBuffer](Docs/circularBuffer)*, *[DelayLine](docs/DelayLine.md)*     
-*[Using AudioTools with Dependency Injection](Docs/DependencyInjection)*
+Useful collections: *[CircularBuffer](Docs/circularBuffer)*, *[DelayLine](Docs/DelayLine.md)*     
+*[Using AudioTools with Dependency Injection](Docs/DependencyInjection.md)*
   
