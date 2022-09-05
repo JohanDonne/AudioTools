@@ -7,11 +7,11 @@ Warnings:
 * No attempt is made for ultra-efficient code or low latency processing. When those are important, using a wrapper is probably not a good idea. In that case I highly recommend using NAudio itself and spending some time learning to use it in an efficient way.
 
 *[Getting Started](docs/GettingStarted.md)*    
-[Representating audio information: AudioSampleFrame](docs/AudioSampleFrame.md)
-[Reading samples from an audio file: AudioFileReader](docs/AudioFileReader.md)
-[Playing a stream of audio samples: AudioPlayer](docs/AudioPlayer.md)    
-*[Writing a stream of audio samples to an mp3 file: Mp3FileWriter](docs/Mp3FileWriter.md)*    
-*[Generating audio signals: SignalGenerator](docs/SignalGenerator.md)*    
-Useful collections: *[CircularBuffer](docs/circularBuffer)*, *[DelayLine](docs/DelayLine.md)*     
-*[Using AudioTools with Dependency Injection](docs/DependencyInjection)*
+[Representating audio information: AudioSampleFrame](Docs/AudioSampleFrame.md)
+[Reading samples from an audio file: AudioFileReader](Docs/AudioFileReader.md)
+[Playing a stream of audio samples: AudioPlayer](Docs/AudioPlayer.md)    
+*[Writing a stream of audio samples to an mp3 file: Mp3FileWriter](Docs/Mp3FileWriter.md)*    
+*[Generating audio signals: SignalGenerator](Docs/SignalGenerator.md)*    
+Useful collections: *[CircularBuffer](Docs/circularBuffer)*, *[DelayLine](docs/DelayLine.md)*     
+*[Using AudioTools with Dependency Injection](Docs/DependencyInjection)*
   
