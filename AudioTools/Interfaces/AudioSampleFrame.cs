@@ -60,58 +60,24 @@ public struct AudioSampleFrame : IEquatable<AudioSampleFrame>
     private static float SaturatedAdd(float a, float b)
     {
         float l = a + b;
-        if (l < -1)
-        {
-            return -1F;
-        }
-
-        if (l > 1)
-        {
-            return 1F;
-        }
-
-        return l;
+        return l < -1 ? -1F : l > 1 ? 1F : l;
     }
 
     private static float SaturatedSubtract(float a, float b)
     {
         float l = a - b;
-        if (l < -1)
-        {
-            return -1F;
-        }
-
-        if (l > 1)
-        {
-            return 1F;
-        }
-
-        return l;
+        return l < -1 ? -1F : l > 1 ? 1F : l;
     }
 
     private static float SaturatedMultiply(float a, float b)
     {
         float l = a * b;
-        if (l < -1)
-        {
-            return -1F;
-        }
-
-        if (l > 1)
-        {
-            return 1F;
-        }
-
-        return l;
+        return l < -1 ? -1F : l > 1 ? 1F : l;
     }
 
     public override bool Equals(object? obj)
     {
-        if (obj is not AudioSampleFrame)
-        {
-            return false;
-        }
-        return Equals((AudioSampleFrame)obj);
+        return obj is AudioSampleFrame frame && Equals(frame);
     }
 
     public override string ToString()

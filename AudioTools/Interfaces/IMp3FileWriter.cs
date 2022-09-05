@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AudioTools.Interfaces;
 
-internal interface IMp3FileWriter
+public interface IMp3FileWriter
 { 
     int Samplerate { get; }
     string FilePath { get; }

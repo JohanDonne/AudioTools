@@ -5,22 +5,22 @@ namespace AudioTools.Implementation;
 
 public class AudioFileReader : IAudioFileReader
 {
-    private NAudio.Wave.AudioFileReader? fileReader;
-    private WaveChannel32? waveChannel;
-    private ISampleProvider? sampleProvider;
-    private bool disposedValue;
+    private NAudio.Wave.AudioFileReader? _fileReader;
+    private WaveChannel32? _waveChannel;
+    private ISampleProvider? _sampleProvider;
+    private bool _disposedValue;
 
-    public int SampleRate => waveChannel?.WaveFormat.SampleRate ?? 0;
-    public TimeSpan TimeLength => waveChannel?.TotalTime ?? TimeSpan.FromSeconds(0);
-    public TimeSpan TimePosition => waveChannel?.CurrentTime ?? TimeSpan.FromSeconds(0);
+    public int SampleRate => _waveChannel?.WaveFormat.SampleRate ?? 0;
+    public TimeSpan TimeLength => _waveChannel?.TotalTime ?? TimeSpan.FromSeconds(0);
+    public TimeSpan TimePosition => _waveChannel?.CurrentTime ?? TimeSpan.FromSeconds(0);
     public float Volume
     {
-        get => waveChannel?.Volume ?? 0;
+        get => _waveChannel?.Volume ?? 0;
         set
         {
-            if (waveChannel != null)
+            if (_waveChannel != null)
             {
-                waveChannel.Volume = (value < 0) ? 0 : (value <= 1.0) ? value : 1F;
+                _waveChannel.Volume = (value < 0) ? 0 : (value <= 1.0) ? value : 1F;
             }
         }
     }
@@ -34,28 +34,28 @@ public class AudioFileReader : IAudioFileReader
 
         try
         {
-            fileReader = new NAudio.Wave.AudioFileReader(filePath);
+            _fileReader = new NAudio.Wave.AudioFileReader(filePath);
         }
         catch
         {
             throw new ArgumentException($"filetype not supported.");
         }
 
-        waveChannel = new WaveChannel32(fileReader);
-        sampleProvider = waveChannel.ToSampleProvider();
+        _waveChannel = new WaveChannel32(_fileReader);
+        _sampleProvider = _waveChannel.ToSampleProvider();
     }
 
     public AudioSampleFrame ReadSampleFrame()
     {
         float[] buffer = new float[2];
-        sampleProvider?.Read(buffer, 0, 2);
+        _sampleProvider?.Read(buffer, 0, 2);
         return new AudioSampleFrame(left: buffer[0], right: buffer[1]);
     }
 
     public int ReadSamples(float[] left, float[] right)
     {
         float[]? buffer = new float[left.Length * 2];
-        int count = sampleProvider?.Read(buffer, 0, left.Length * 2) / 2??0;
+        int count = _sampleProvider?.Read(buffer, 0, left.Length * 2) / 2??0;
         for (int i = 0; i < count; i++)
         {
             left[i] = buffer[i * 2];
@@ -66,17 +66,17 @@ public class AudioFileReader : IAudioFileReader
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             if (disposing)
             {
-                waveChannel?.Dispose();
-                fileReader?.Dispose();
+                _waveChannel?.Dispose();
+                _fileReader?.Dispose();
             }
-            sampleProvider = null;
-            waveChannel = null;
-            fileReader = null;
-            disposedValue = true;
+            _sampleProvider = null;
+            _waveChannel = null;
+            _fileReader = null;
+            _disposedValue = true;
         }
     }
 

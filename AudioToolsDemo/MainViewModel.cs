@@ -15,7 +15,7 @@ internal class MainViewModel : ObservableObject, IDisposable
 
     private bool _playing = false;
     private bool _sourceSelected = false;
-    private bool disposedValue;
+    private bool _disposedValue;
     private PeriodicTimer? _timer;
     private string _selectedDevice = String.Empty;
 
@@ -139,14 +139,14 @@ internal class MainViewModel : ObservableObject, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             if (disposing)
             {
                 _controller?.Dispose();
             }
             _controller = null;
-            disposedValue = true;
+            _disposedValue = true;
         }
     }
     public void Dispose()

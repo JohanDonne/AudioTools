@@ -12,11 +12,11 @@ internal class AudioController : IDisposable
 {
     private IAudioFileReader? _reader;
     private IAudioPlayer? _player;
-    private Mp3FileWriter? _recorder;
+    private IMp3FileWriter? _recorder;
     private string _currentDevice;
     private bool _playing = false;
     public bool IsRecording { get; private set; } = false;
-    private bool disposedValue;
+    private bool _disposedValue;
 
     public List<string> Devices = (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
 
@@ -104,7 +104,7 @@ internal class AudioController : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             if (disposing)
             {
@@ -114,7 +114,7 @@ internal class AudioController : IDisposable
             }
             _reader = null;
             _player = null;
-            disposedValue = true;
+            _disposedValue = true;
         }
     }       
 

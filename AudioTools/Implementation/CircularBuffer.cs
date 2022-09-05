@@ -5,71 +5,64 @@ namespace AudioTools.Implementation;
 
 public class CircularBuffer<T> : ICircularBuffer<T>
 {
-    private T[]? buffer;
-    private int head;
-    private readonly int capacity;
-    private bool changed = false;
+    private T[]? _buffer;
+    private int _head;
+    private readonly int _capacity;
+    private bool _changed = false;
 
-    public int Length => buffer?.Length ?? 0;
+    public int Length => _buffer?.Length ?? 0;
 
     public T this[int i]
     {
         get
         {
-            if ((i < 0) || (i >= capacity))
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            return buffer![(head + 1 + i) % capacity];
+            return i >= 0 && i < _capacity ? _buffer![(_head + 1 + i) % _capacity] : throw new IndexOutOfRangeException();
         }
         set
         {
-            if ((i < 0) || (i >= capacity))
+            if (i >= 0 && i < _capacity)
+            {
+                _buffer![(_head + 1 + i) % _capacity] = value;
+                _changed = true;
+            }
+            else
             {
                 throw new IndexOutOfRangeException();
             }
-
-            buffer![(head + 1 + i) % capacity] = value;
-            changed = true;
         }
     }
 
     public CircularBuffer(int capacity)
     {
-        this.capacity = capacity;
+        this._capacity = capacity;
         Clear();
     }
 
     public void Clear()
     {
-        buffer = new T[capacity];
-        head = capacity;
-        changed = true;
+        _buffer = new T[_capacity];
+        _head = _capacity;
+        _changed = true;
     }
 
     public void Add(T value)
     {
-        head++;
-        if (head >= capacity)
+        _head++;
+        if (_head >= _capacity)
         {
-            head = 0;
+            _head = 0;
         }
 
-        buffer![head] = value;
-        changed = true;
+        _buffer![_head] = value;
+        _changed = true;
     }
 
     public IEnumerator<T> GetEnumerator()
     {
-        changed = false;
-        for (int i = 0; i < capacity; i++)
+        _changed = false;
+        for (int i = 0; i < _capacity; i++)
         {
-            if (changed)
-            {
-                throw new InvalidOperationException("Buffer was modified during enumeration.");
-            }
-            yield return this[i];
+            yield return !_changed ? this[i] : throw new InvalidOperationException("Buffer was modified during enumeration.");
         }
     }
 

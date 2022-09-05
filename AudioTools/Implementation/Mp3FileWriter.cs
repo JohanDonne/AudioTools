@@ -10,7 +10,7 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
     private BinaryWriter? _writer;
     private BinaryReader? _reader;
     private bool _closed = false;
-    private bool disposedValue;
+    private bool _disposedValue;
     private readonly SampleToWaveProvider _converter;
 
     public int Samplerate => 44100;
@@ -80,7 +80,7 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             _reader?.Dispose();
             _writer?.Dispose();
@@ -88,7 +88,7 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
             _reader = null;
             _writer = null;
             _memory = null;
-            disposedValue = true;
+            _disposedValue = true;
         }
     }
 

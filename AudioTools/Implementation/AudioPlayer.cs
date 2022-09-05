@@ -5,21 +5,21 @@ namespace AudioTools.Implementation;
 
 public class AudioPlayer : IAudioPlayer
 {
-    private readonly AudioSampleProvider sampleProvider;
-    private WaveOutEvent? waveOut;
-    private readonly WaveFormat format;
-    private bool disposedValue;
+    private readonly AudioSampleProvider _sampleProvider;
+    private WaveOutEvent? _waveOut;
+    private readonly WaveFormat _format;
+    private bool _disposedValue;
 
     public event Action<int>? OnSampleFramesNeeded;
 
     public float Volume
     {
-        get => waveOut?.Volume ?? 0;
+        get => _waveOut?.Volume ?? 0;
         set
         {
-            if (waveOut != null)
+            if (_waveOut != null)
             {
-                waveOut.Volume = (value < 0) ? 0 : (value <= 1.0) ? value : 1F;
+                _waveOut.Volume = (value < 0) ? 0 : (value <= 1.0) ? value : 1F;
             }
         }
     }
@@ -28,16 +28,16 @@ public class AudioPlayer : IAudioPlayer
 
     public AudioPlayer(string deviceProductName, int sampleRate)
     {
-        format = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 2);
-        sampleProvider = new AudioSampleProvider(format);
-        sampleProvider.OnSampleFramesNeeded += SampleProvider_OnSampleFramesNeeded;
+        _format = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 2);
+        _sampleProvider = new AudioSampleProvider(_format);
+        _sampleProvider.OnSampleFramesNeeded += SampleProvider_OnSampleFramesNeeded;
 
-        waveOut = new WaveOutEvent();
+        _waveOut = new WaveOutEvent();
         if (!string.IsNullOrEmpty(deviceProductName))
         {
-            waveOut.DeviceNumber = GetDeviceId(deviceProductName);
+            _waveOut.DeviceNumber = GetDeviceId(deviceProductName);
         }
-        waveOut.Init(sampleProvider);
+        _waveOut.Init(_sampleProvider);
     }
 
     private static int GetDeviceId(string device)
@@ -59,30 +59,30 @@ public class AudioPlayer : IAudioPlayer
 
     public void Start()
     {
-        waveOut?.Play();
+        _waveOut?.Play();
     }
 
     public void Stop()
     {
-        waveOut?.Pause();
+        _waveOut?.Pause();
     }
 
     public void WriteSampleFrame(AudioSampleFrame frame)
     {
-        sampleProvider.Write(frame);
+        _sampleProvider.Write(frame);
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             if (disposing)
             {
-                sampleProvider.OnSampleFramesNeeded -= SampleProvider_OnSampleFramesNeeded;
-                waveOut?.Dispose();                
+                _sampleProvider.OnSampleFramesNeeded -= SampleProvider_OnSampleFramesNeeded;
+                _waveOut?.Dispose();                
             }
-            waveOut = null; ;
-            disposedValue = true;
+            _waveOut = null; ;
+            _disposedValue = true;
         }
     }
 

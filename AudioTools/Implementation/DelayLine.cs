@@ -4,43 +4,43 @@ namespace AudioTools.Implementation;
 
 public class DelayLine<T> : IDelayLine<T>
 {
-    private T[]? buffer;
-    private int head;
-    private readonly int capacity;
-    private int delay;
+    private T[]? _buffer;
+    private int _head;
+    private readonly int _capacity;
+    private int _delay;
 
     public int Delay
     {
-        get => delay;
-        set => delay = (value < 0) ? 0 : (value < capacity) ? value : capacity - 1;
+        get => _delay;
+        set => _delay = (value < 0) ? 0 : (value < _capacity) ? value : _capacity - 1;
     }
 
     public DelayLine(int capacity)
     {
-        this.capacity = capacity;
+        this._capacity = capacity;
         Reset();
     }
 
     public void Reset()
     {
-        buffer = new T[capacity];
-        head = 0;
+        _buffer = new T[_capacity];
+        _head = 0;
     }
 
     public void Enqueue(T value)
     {
-        head++;
-        if (head >= capacity)
+        _head++;
+        if (_head >= _capacity)
         {
-            head = 0;
+            _head = 0;
         }
 
-        buffer![head] = value;
+        _buffer![_head] = value;
     }
 
     public T Dequeue()
     {
-        int position = (capacity + head - delay) % capacity;
-        return buffer![position];
+        int position = (_capacity + _head - _delay) % _capacity;
+        return _buffer![position];
     }
 }

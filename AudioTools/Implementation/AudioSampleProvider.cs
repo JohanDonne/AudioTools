@@ -11,10 +11,10 @@ namespace AudioTools.Implementation;
 internal class AudioSampleProvider:ISampleProvider
 {
 
-    private const int bufferSize = 30000;
-    private const int sampleLowMark = 20000;
-    private const int sampleHighMark = 20000;
-    private readonly Queue<float> sampleBuffer;
+    private const int _bufferSize = 30000;
+    private const int _sampleLowMark = 20000;
+    private const int _sampleHighMark = 20000;
+    private readonly Queue<float> _sampleBuffer;
     
 
     public WaveFormat WaveFormat { get; }
@@ -24,22 +24,22 @@ internal class AudioSampleProvider:ISampleProvider
     public AudioSampleProvider(WaveFormat waveFormat)
     {
         WaveFormat = waveFormat;
-        sampleBuffer = new Queue<float>(bufferSize);
+        _sampleBuffer = new Queue<float>(_bufferSize);
        
     }
 
     public void Write(AudioSampleFrame frame)
     {
-        sampleBuffer.Enqueue(frame.Left);
-        sampleBuffer.Enqueue(frame.Right);
+        _sampleBuffer.Enqueue(frame.Left);
+        _sampleBuffer.Enqueue(frame.Right);
     }
     public int Read(float[] buffer, int offset, int count)
     {
         int index = 0;
         //read available samples
-        while((index < count) && (sampleBuffer.Count > 0))
+        while((index < count) && (_sampleBuffer.Count > 0))
         {
-            buffer[offset + index] = sampleBuffer.Dequeue();
+            buffer[offset + index] = _sampleBuffer.Dequeue();
             index++;
         }
         // and pad with silence
@@ -48,7 +48,7 @@ internal class AudioSampleProvider:ISampleProvider
             buffer[offset + index] = 0F;
             index++;
         }
-        if(sampleBuffer.Count < sampleLowMark) OnSampleFramesNeeded?.Invoke(sampleHighMark - sampleBuffer.Count-10);
+        if(_sampleBuffer.Count < _sampleLowMark) OnSampleFramesNeeded?.Invoke(_sampleHighMark - _sampleBuffer.Count-10);
 
         return index;
     }
