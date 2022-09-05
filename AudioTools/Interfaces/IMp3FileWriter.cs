@@ -8,9 +8,6 @@ namespace AudioTools.Interfaces;
 
 public interface IMp3FileWriter
 { 
-    int Samplerate { get; }
-    string FilePath { get; }
-
     void WriteSampleFrame(AudioSampleFrame frame);
     void Close();
 }

@@ -42,6 +42,7 @@ internal class AudioController : IDisposable
 
     public void SetSource(string path)
     {
+        StopRecording();
         _playing = false;
         _reader = new AudioFileReader(path);
         _player = new AudioPlayer(_currentDevice,_reader.SampleRate);
@@ -74,7 +75,8 @@ internal class AudioController : IDisposable
 
     public void Start()
     {
-        _player?.Start();
+        if (_player == null) return;
+        _player.Start();
         _playing = true;
     }
 
@@ -82,7 +84,7 @@ internal class AudioController : IDisposable
     {
         const string filePath = "fragment.mp3";
         if (!_playing) return;
-        _recorder = new Mp3FileWriter(filePath);
+        _recorder = new Mp3FileWriter(filePath, _reader!.SampleRate);
         IsRecording = true;
     }
 
@@ -97,8 +99,7 @@ internal class AudioController : IDisposable
     public void Stop()
     {
         _player?.Stop();
-        if (IsRecording) _recorder!.Close();
-        IsRecording = false;
+        StopRecording();
         _playing = false;   
     }
 

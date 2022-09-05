@@ -11,17 +11,17 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
     private BinaryReader? _reader;
     private bool _closed = false;
     private bool _disposedValue;
+    private readonly string _filePath;
     private readonly SampleToWaveProvider _converter;
 
-    public int Samplerate => 44100;
-
-    public string FilePath { get; }
-
-    public WaveFormat WaveFormat => WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
-
-    public Mp3FileWriter(string filePath)
+    //public int Samplerate => 44100;
+    
+    public WaveFormat WaveFormat { get; private set; }  
+    
+    public Mp3FileWriter(string filePath, int samplerate)
     {
-        FilePath = filePath;
+        WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(samplerate, 2);
+        _filePath = filePath;
         _converter = new(this as ISampleProvider);
         _memory = new MemoryStream();
         _writer = new BinaryWriter(_memory);
@@ -41,7 +41,7 @@ public class Mp3FileWriter : IMp3FileWriter, IWaveProvider, ISampleProvider, IDi
         _memory?.Seek(0, SeekOrigin.Begin);
         using (_reader = new(_memory!))
         {
-            using FileStream? output = new(FilePath, FileMode.Create);
+            using FileStream? output = new(_filePath, FileMode.Create);
             MediaFoundationEncoder.EncodeToMp3(this, output);
         }
         _reader = null;

@@ -5,8 +5,8 @@ namespace AudioTools.Factories;
 public class Mp3FileWriterFactory : IMp3FileWriterFactory
 {
 
-    public IMp3FileWriter Create(string audioFilePath)
+    public IMp3FileWriter Create(string audioFilePath, int samplerate)
     {
-        return new Mp3FileWriter(audioFilePath);
+        return new Mp3FileWriter(audioFilePath, samplerate);
     }
 }
