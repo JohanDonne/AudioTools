@@ -1,10 +1,5 @@
 ﻿using AudioTools.Interfaces;
 using NAudio.Wave.SampleProviders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioTools.Implementation;
 public class SignalGenerator : ISignalGenerator
@@ -14,11 +9,11 @@ public class SignalGenerator : ISignalGenerator
 
     private readonly NAudio.Wave.SampleProviders.SignalGenerator _generator = new(44100, 2)
     {
-        Frequency=100.0,
+        Frequency = 100.0,
         FrequencyEnd = 20000.0,
         SweepLengthSecs = 10
     };
-    
+
     public int SampleRate => 44100;
     public AudioSignalType SignalType
     {
@@ -31,7 +26,7 @@ public class SignalGenerator : ISignalGenerator
     }
     public double Frequency { get => _generator.Frequency; set => _generator.Frequency = value; }
     public double FrequencyEnd { get => _generator.FrequencyEnd; set => _generator.FrequencyEnd = value; }
-    public double SweepLengthSecondss { get => _generator.SweepLengthSecs; set => _generator.SweepLengthSecs = value; }
+    public double SweepLengthSeconds { get => _generator.SweepLengthSecs; set => _generator.SweepLengthSecs = value; }
 
     private void SetInternalType()
     {
@@ -58,7 +53,7 @@ public class SignalGenerator : ISignalGenerator
     public int ReadSamples(float[] left, float[] right)
     {
         float[]? buffer = new float[left.Length * 2];
-        int count = _generator.Read(buffer, 0, left.Length * 2) / 2; 
+        int count = _generator.Read(buffer, 0, left.Length * 2) / 2;
         for (int i = 0; i < count; i++)
         {
             left[i] = buffer[i * 2];

@@ -5,7 +5,7 @@ public interface ISignalGenerator
     AudioSignalType SignalType { get; set; }
     double Frequency { get; set; }
     double FrequencyEnd { get; set; }
-    double SweepLengthSecondss { get; set; }
+    double SweepLengthSeconds { get; set; }
     AudioSampleFrame ReadSampleFrame();
     int ReadSamples(float[] left, float[] right);
 
