@@ -12,6 +12,6 @@ Disclaimer: No attempt is made for ultra-efficient code or low latency processin
 [Playing a stream of audio samples: AudioPlayer](Docs/AudioPlayer.md)       
 [Writing a stream of audio samples to an mp3 file: Mp3FileWriter](Docs/Mp3FileWriter.md)    
 [Generating audio signals: SignalGenerator](Docs/SignalGenerator.md)    
-Useful collections: *[CircularBuffer](Docs/circularBuffer.md)*, *[DelayLine](Docs/DelayLine.md)*     
+Useful collections: [CircularBuffer](Docs/circularBuffer.md), *[DelayLine](Docs/DelayLine.md)*     
 *[Using AudioTools with Dependency Injection](Docs/DependencyInjection.md)*
   
