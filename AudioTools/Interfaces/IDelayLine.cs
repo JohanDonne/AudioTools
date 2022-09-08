@@ -6,5 +6,5 @@ public interface IDelayLine<T>
 
     T Dequeue();
     void Enqueue(T value);
-    void Reset();
+    void Clear();
 }

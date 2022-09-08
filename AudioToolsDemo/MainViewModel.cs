@@ -42,6 +42,14 @@ internal class MainViewModel : ObservableObject, IDisposable
     }
     public string RecordButtonCaption => _controller!.IsRecording ? "Stop Recording" : "Start Recording";
 
+    public double MaxDelayMilliseconds => AudioController.MaxEchoDelay.TotalMilliseconds;
+
+    public double DelayMilliseconds
+    { 
+       get => _controller!.EchoDelay.TotalMilliseconds;
+       set => _controller!.EchoDelay = TimeSpan.FromMilliseconds(value); 
+    }
+
     public IRelayCommand OpenFileCommand { get; }
     public IRelayCommand PlayCommand { get; }
     public IRelayCommand PauseCommand { get; }
@@ -112,7 +120,7 @@ internal class MainViewModel : ObservableObject, IDisposable
         while (_playing && await _timer.WaitForNextTickAsync())
         {
             OnPropertyChanged(nameof(AudioPosition));
-            if (_controller!.AudioPosition >= _controller.AudioLength) StopSource();
+            if ((_controller != null) &&(_controller.AudioPosition >= _controller.AudioLength)) StopSource();
         }
     }
 

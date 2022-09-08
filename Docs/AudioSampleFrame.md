@@ -1,6 +1,6 @@
 ### AudioSampleFrame
 
-The `AudioSampleFrame` structs is used to represent the actual sound-information read individual audio samples from an audio file in a supported format (most audio- and video formats will be supported).
+The `AudioSampleFrame` structs is used to represent the individual audio samples. It contains de values for the samples from left and right channel that were sampled at the same moment. Most classes and methods in this library will use the `AudioSampleFrame` as the basic entity to store or exchange audio-information.
 
 
 

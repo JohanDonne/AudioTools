@@ -15,13 +15,13 @@ public class DelayLine<T> : IDelayLine<T>
         set => _delay = (value < 0) ? 0 : (value < _capacity) ? value : _capacity - 1;
     }
 
-    public DelayLine(int capacity)
+    public DelayLine(int maxDelay)
     {
-        this._capacity = capacity;
-        Reset();
+        this._capacity = maxDelay+1;
+        Clear();
     }
 
-    public void Reset()
+    public void Clear()
     {
         _buffer = new T[_capacity];
         _head = 0;

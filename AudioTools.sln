@@ -18,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F65035D8-C
 		Docs\AudioPlayer.md = Docs\AudioPlayer.md
 		Docs\AudioSampleFrame.md = Docs\AudioSampleFrame.md
 		Docs\CircularBuffer.md = Docs\CircularBuffer.md
-		DelayLine.md = DelayLine.md
-		docs\GettingStarted.md = docs\GettingStarted.md
+		Docs\DelayLine.md = Docs\DelayLine.md
 		docs\DependencyInjection.md = docs\DependencyInjection.md
+		docs\GettingStarted.md = docs\GettingStarted.md
 		docs\Mp3FileWriter.md = docs\Mp3FileWriter.md
 		docs\SignalGenerator.md = docs\SignalGenerator.md
 	EndProjectSection
