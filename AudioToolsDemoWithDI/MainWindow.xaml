@@ -70,7 +70,7 @@
         <Slider
           Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,0"
           Minimum="0" Maximum="{Binding MaxDelayMilliseconds}"  Value="{Binding DelayMilliseconds}"    
-          TickPlacement="BottomRight" TickFrequency="10"   AutoToolTipPlacement="TopLeft"
+          TickPlacement="BottomRight" TickFrequency="10" SmallChange="5" LargeChange="100"  AutoToolTipPlacement="TopLeft"
          />
         <Label Grid.Row="3" Grid.Column="2" Content="Volume:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         <Slider

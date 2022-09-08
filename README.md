@@ -1,7 +1,7 @@
 # AudioTools
 A basic wrapper for the NAudio Library to facilitate experimenting with digital audio.    
 
-NAudio is an excellent, powerful library for developing applications that deal with any kind of digital audio processing on Windows. However, it can be a bit overwhelming for someone who is starting in the field of audio processing or who simply wants to experiment without bothering too much with the technical details.
+[NAudio](https://github.com/naudio/NAudio) is an excellent, powerful library for developing applications that deal with any kind of digital audio processing on Windows. However, it can be a bit overwhelming for someone who is starting in the field of audio processing or who simply wants to experiment without bothering too much with the technical details.
 The AudioTools library aims to provide easy access to basic functionality for those scenario's.    
     
 Disclaimer: No attempt is made for ultra-efficient code or low latency processing. When those are important, using a wrapper is probably not a good idea. In that case I highly recommend using NAudio itself and spending some time learning to use it in an efficient way.
@@ -13,5 +13,5 @@ Disclaimer: No attempt is made for ultra-efficient code or low latency processin
 [Writing a stream of audio samples to an mp3 file: Mp3FileWriter](Docs/Mp3FileWriter.md)    
 [Generating audio signals: SignalGenerator](Docs/SignalGenerator.md)    
 Useful collections: [CircularBuffer](Docs/circularBuffer.md), [DelayLine](Docs/DelayLine.md)     
-*[Using AudioTools with Dependency Injection](Docs/DependencyInjection.md)*
+[Using AudioTools with Dependency Injection](Docs/DependencyInjection.md)
   
