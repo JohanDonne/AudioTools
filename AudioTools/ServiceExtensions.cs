@@ -14,6 +14,6 @@ public static class ServiceExtensions
         services.AddSingleton<IAudioPlayerFactory, AudioPlayerFactory>();
         services.AddSingleton<IAudioFileReaderFactory, AudioFileReaderFactory>(); 
         services.AddSingleton<ICircularBufferFactory, CircularBufferFactory>();
-        services.AddSingleton<IDelayLineFactory, DelayLineFactory>();
+        services.AddSingleton<IDelaylineFactory, DelayLineFactory>();
     }
 }

@@ -1,5 +1,5 @@
 ﻿namespace AudioTools.Interfaces;
-public interface IDelayLineFactory
+public interface IDelaylineFactory
 {
     IDelayLine<T> Create<T>(int capacity);
 }

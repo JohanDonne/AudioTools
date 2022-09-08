@@ -1,18 +1,19 @@
-﻿using AudioTools;
-using AudioTools.Implementation;
+﻿using AudioTools.Implementation;
 using AudioTools.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioToolsDemo;
-internal class AudioController : IDisposable
+internal class AudioController : IDisposable, IAudioController
 {
 
+    private readonly IAudioFileReaderFactory _audioFileReaderFactory;
+    private readonly IAudioPlayerFactory _audioPlayerFactory;   
+    private readonly IMp3FileWriterFactory _mp3FileWriterFactory;
+
     // max delay is calculated based an a maximum samplerate of 48000Hz and the constant MaxEchoDelay property. 
-    private readonly IDelayLine<AudioSampleFrame> _delayLine = new DelayLine<AudioSampleFrame>((int) (MaxEchoDelay.TotalSeconds * 48000));
+    private readonly IDelayLine<AudioSampleFrame> _delayLine;
     private IAudioFileReader? _reader;
     private IAudioPlayer? _player;
     private IMp3FileWriter? _recorder;
@@ -23,7 +24,8 @@ internal class AudioController : IDisposable
     private float _volume = 50f;
     private bool _disposedValue;
 
-    public List<string> Devices => (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
+    public List<string> Devices => (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();
+
     public TimeSpan AudioLength => _reader?.TimeLength ?? new TimeSpan();
     public TimeSpan AudioPosition => _reader?.TimePosition ?? new TimeSpan();
 
@@ -33,7 +35,7 @@ internal class AudioController : IDisposable
         set
         {
             _volume = value < 0f ? 0f : value > 100f ? 100f : value;
-            if (_player == null) return;            
+            if (_player == null) return;
             _player.Volume = _volume / 100f;
         }
     }
@@ -42,7 +44,7 @@ internal class AudioController : IDisposable
 
     public TimeSpan EchoDelay
     {
-        get => TimeSpan.FromMilliseconds(_delayLine.Delay * 1000 / (_reader?.SampleRate??44100));
+        get => TimeSpan.FromMilliseconds(_delayLine.Delay * 1000 / (_reader?.SampleRate ?? 44100));
         set
         {
             _delay = (value <= MaxEchoDelay) ? value : MaxEchoDelay;
@@ -50,9 +52,13 @@ internal class AudioController : IDisposable
         }
     }
 
-    public AudioController()
+    public AudioController(IAudioFileReaderFactory audioFileReaderFactory, IAudioPlayerFactory audioPlayerFactory, IMp3FileWriterFactory mdlFileWriterFactory, IDelaylineFactory delayLineFactory)
     {
         _currentDevice = Devices[0];
+        _audioFileReaderFactory = audioFileReaderFactory;
+        _audioPlayerFactory = audioPlayerFactory;
+        _mp3FileWriterFactory = mdlFileWriterFactory;
+        _delayLine = delayLineFactory.Create<AudioSampleFrame>((int)(MaxEchoDelay.TotalSeconds * 48000));
     }
 
     private int TimeSpanToFrames(TimeSpan interval)
@@ -64,26 +70,24 @@ internal class AudioController : IDisposable
     {
         StopRecording();
         _playing = false;
-        _reader = new AudioFileReader(path);
+        _reader = _audioFileReaderFactory.Create(path);
         CreatePlayer();
     }
 
     private void CreatePlayer()
     {
-        _player = new AudioPlayer(_currentDevice, _reader!.SampleRate)
-        {
-            Volume = _volume
-        };
+        _player = _audioPlayerFactory.Create(_currentDevice, _reader!.SampleRate);
+        _player.Volume = _volume;
         _delayLine.Clear();
         _player.SampleFramesNeeded += Player_OnSampleFramesNeeded;
     }
 
     public void SetDevice(string device)
-    { 
-        _currentDevice= device;
+    {
+        _currentDevice = device;
         if (_reader != null)
         {
-            var oldplayer = _player; 
+            var oldplayer = _player;
             oldplayer!.SampleFramesNeeded -= Player_OnSampleFramesNeeded;
             CreatePlayer();
             oldplayer?.Dispose();
@@ -119,7 +123,7 @@ internal class AudioController : IDisposable
     {
         const string filePath = "fragment.mp3";
         if (!_playing) return;
-        _recorder = new Mp3FileWriter(filePath, _reader!.SampleRate);
+        _recorder = _mp3FileWriterFactory.Create(filePath, _reader!.SampleRate);
         IsRecording = true;
     }
 
@@ -135,7 +139,7 @@ internal class AudioController : IDisposable
     {
         _player?.Stop();
         StopRecording();
-        _playing = false;   
+        _playing = false;
     }
 
     protected virtual void Dispose(bool disposing)
@@ -152,7 +156,7 @@ internal class AudioController : IDisposable
             _player = null;
             _disposedValue = true;
         }
-    }       
+    }
 
     public void Dispose()
     {
