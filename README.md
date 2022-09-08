@@ -6,7 +6,7 @@ The AudioTools library aims to provide easy access to basic functionality for th
     
 Disclaimer: No attempt is made for ultra-efficient code or low latency processing. When those are important, using a wrapper is probably not a good idea. In that case I highly recommend using NAudio itself and spending some time learning to use it in an efficient way.
 
-*[Getting Started](Docs/GettingStarted.md)*    
+[Getting Started](Docs/GettingStarted.md)    
 [Representing audio information: AudioSampleFrame](Docs/AudioSampleFrame.md)   
 [Reading samples from an audio file: AudioFileReader](Docs/AudioFileReader.md)   
 [Playing a stream of audio samples: AudioPlayer](Docs/AudioPlayer.md)       
