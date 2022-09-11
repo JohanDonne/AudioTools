@@ -107,9 +107,15 @@ internal class AudioController : IDisposable, IAudioController
 
     private AudioSampleFrame CalculateNextFrame()
     {
+        // echo effect
         var frame = _reader!.ReadSampleFrame();
         _delayLine.Enqueue(frame);
         return frame + _delayLine.Dequeue().Amplify(0.7F);
+
+        //// alternative: reverb effect:
+        //frame += _delayLine.Dequeue().Amplify(0.5F);
+        //_delayLine.Enqueue(frame);
+        //return frame;
     }
 
     public void Start()
