@@ -4,7 +4,9 @@ A basic wrapper for the NAudio Library to facilitate experimenting with digital 
 [NAudio](https://github.com/naudio/NAudio) is an excellent, powerful library for developing applications that deal with any kind of digital audio processing on Windows. However, it can be a bit overwhelming for someone who is starting in the field of audio processing or who simply wants to experiment without bothering too much with the technical details.
 The AudioTools library aims to provide easy access to basic functionality for those scenario's.   
     
-Note: this library targets .Net 6 and Windows applications.
+Note: This library targets .Net 6 and Windows applications.
+
+If you like this, spread the word by giving a star. If you have any suggestions, recommendations or complaints, contact the author.
     
 Disclaimer: No attempt is made for ultra-efficient code or low latency processing. When those are important, using a wrapper is probably not a good idea. In that case I highly recommend using NAudio itself and spending some time learning to use it in an efficient way.
 
