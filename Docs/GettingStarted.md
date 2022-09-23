@@ -2,7 +2,7 @@
 
 Using the AudioTools livrary is easy
 
-* Add the AudioTools [Nuget package](https://www.nuget.org/packages/AudioTools) to your project. 
+* Add the AudioTools [Nuget package](https://www.nuget.org/packages/AudioTools) to your project (which must target at least .Net 6). 
 * For Class-libraries or console apps: Make sure you use the Windows version of your Target Framework (at least .Net 6):    
 
     ```<XML>
