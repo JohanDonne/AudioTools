@@ -23,13 +23,13 @@ internal class AudioController : IDisposable
     private float _volume = 50f;
     private bool _disposedValue;
 
-    public List<string> Devices => (new List<string> { "Default" }).Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
+    public List<string> Devices => new List<string> { "Default" }.Concat(AudioSystem.OutputDeviceCapabilities.Select(c => c.ProductName)).ToList();    
     public TimeSpan AudioLength => _reader?.TimeLength ?? new TimeSpan();
     public TimeSpan AudioPosition => _reader?.TimePosition ?? new TimeSpan();
 
     public float Volume
     {
-        get => (int)(_volume);
+        get => (int)_volume;
         set
         {
             _volume = value < 0f ? 0f : value > 100f ? 100f : value;
@@ -62,10 +62,16 @@ internal class AudioController : IDisposable
 
     public void SetSource(string path)
     {
-        StopRecording();
-        _playing = false;
-        _reader = new AudioFileReader(path);
-        CreatePlayer();
+        Stop();
+        _reader?.Dispose();
+        _reader = null;
+        _player?.Dispose();
+        _player = null;
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            _reader = new AudioFileReader(path);
+            CreatePlayer();
+        }       
     }
 
     private void CreatePlayer()

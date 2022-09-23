@@ -69,29 +69,35 @@ public class MainViewModel : ObservableObject, IDisposable
     {
 
         _sourceSelected = false;
-        StopSource();
+        _playing = false;
+        _controller?.SetSource(String.Empty);
+        AudioFilePath = "<select an audiofile>";
         _timer?.Dispose();
+        UpdateUiCommandsState();
+        OnPropertyChanged(nameof(AudioFilePath));
+        OnPropertyChanged(nameof(AudioLength));
+        OnPropertyChanged(nameof(AudioPosition));
         string? path = GetSourcePath();
         try
         {
+            _controller?.SetSource(path);
             if (!string.IsNullOrEmpty(path))
             {
-                _controller?.SetSource(path);
                 _sourceSelected = true;
                 AudioFilePath = System.IO.Path.GetFileName(path);
-                OnPropertyChanged(nameof(AudioFilePath));
-                OnPropertyChanged(nameof(AudioLength));
                 PlaySource();
             }
         }
         catch (ArgumentException e)
         {
-            _controller?.Stop();
-            _playing = false;
-            _sourceSelected = false;
-            UpdateUiCommandsState();
+            _controller?.SetSource(string.Empty);
             AudioFilePath = e.Message;
+        }
+        finally
+        {
+            UpdateUiCommandsState();
             OnPropertyChanged(nameof(AudioFilePath));
+            OnPropertyChanged(nameof(AudioLength));
         }
     }
 
