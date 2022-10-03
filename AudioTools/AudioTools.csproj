@@ -8,13 +8,15 @@
     <Authors>Johan Donné</Authors>
     <Description>A basic wrapper for the NAudio-library to facilitate experimenting with digital audio.</Description>
     <RepositoryUrl>https://github.com/JohanDonne/AudioTools</RepositoryUrl>
-    <Version>0.3.3</Version>
+    <Version>0.3.4</Version>
     <Title>Small NAudio wrapper</Title>
     <PackageReadmeFile>Nuget.md</PackageReadmeFile>
     <Copyright>© Johan Donné - 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/JohanDonne/AudioTools</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

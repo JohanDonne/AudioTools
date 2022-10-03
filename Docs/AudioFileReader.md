@@ -57,5 +57,6 @@ None
 
 ##### Remarks
 
+* `AudioFileReader` is not 'thread safe': Reading samples from the `AudioFileReader` can be done from any thread, but always the same one. 
 * `AudioFileReader` implements `IDisposable`. Therefore `Dispose` should be called when the reader is no longer used.
 * When reading a mono audio source (with a single audio-channel), both `Left` and `Right` will contain the same value read from the original sample.
